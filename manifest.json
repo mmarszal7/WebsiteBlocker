@@ -1,0 +1,25 @@
+{
+    "name": "Redirector",
+    "description": "",
+    "version": "1",
+    "permissions": [
+        "storage",
+        "webRequest",
+        "webRequestBlocking",
+        "<all_urls>",
+        "activeTab",
+        "declarativeContent",
+        "https://*/*",
+        "http://*/*",
+        "tabs"
+    ],
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "manifest_version": 2
+}

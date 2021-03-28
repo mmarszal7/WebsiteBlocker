@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row, .newUrl {
+            margin: 3px;
+            display: flex;
+        }
+
+        .newUrl{
+            border-top: 1px solid black;
+            padding-top: 5px;
+        }
+
+        .save{
+            background-color: lightgreen;
+        }
+		
+        .delete{
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container">
+        <div class="row newUrl">
+            <input type="text" id="newUrl" placeholder="URL" />
+            <button class="save" id="save">Save</button>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>
