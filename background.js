@@ -4,23 +4,23 @@ chrome.storage.sync.get("urls", function (data) {
         return;
     }
 
-    chrome.webRequest.onBeforeRequest.addListener(
-        function (details) {
-            return {
-                redirectUrl: "https://google.com/",
-            };
-        },
-        {
-            urls: urls,
-        },
-        ["blocking"]
-    );
-
-    chrome.webRequest.onHeadersReceived.addListener(
-        function (details) { },
-        {
-            urls: ["http://*/*", "https://*/*"],
-        },
-        ["blocking", "responseHeaders"]
-    );
+    urls.forEach(url => {
+        chrome.declarativeNetRequest.updateDynamicRules({
+            addRules: [{
+                'id': 1001,
+                'priority': 1,
+                'action': {
+                    'type': 'block'
+                },
+                'condition': {
+                    'urlFilter': url,
+                    'resourceTypes': [
+                        'csp_report', 'font', 'image', 'main_frame', 'media', 'object', 'other', 'ping', 'script',
+                        'stylesheet', 'sub_frame', 'webbundle', 'websocket', 'webtransport', 'xmlhttprequest'
+                    ]
+                }
+            }],
+            removeRuleIds: [1001]
+        })
+    });
 });

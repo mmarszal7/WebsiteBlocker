@@ -10,9 +10,9 @@ chrome.storage.sync.get("urls", function (x) {
 
 let saveButton = document.getElementById("save");
 saveButton.addEventListener("click", async () => {
-    const newUrl = new URL(document.getElementById("newUrl").value);
+    const newUrl = document.getElementById("newUrl").value;
     document.getElementById("newUrl").value = "";
-    urls.push(`${newUrl.protocol}//${newUrl.hostname}/*`)
+    urls.push(newUrl)
     drawRow(maxId(), newUrl)
     updateBlocker(urls)
 });
@@ -42,15 +42,23 @@ function drawRow(id, value) {
 
 function updateBlocker(newUrls) {
     chrome.storage.sync.set({ urls: newUrls })
-    chrome.webRequest.onBeforeRequest.addListener(
-        function (details) {
-            return {
-                redirectUrl: "http://www.google.com/",
-            };
-        },
-        {
-            urls: newUrls,
-        },
-        ["blocking"]
-    );
+    newUrls.forEach(url => {
+        chrome.declarativeNetRequest.updateDynamicRules({
+            addRules: [{
+                'id': 1001,
+                'priority': 1,
+                'action': {
+                    'type': 'block'
+                },
+                'condition': {
+                    'urlFilter': url,
+                    'resourceTypes': [
+                        'csp_report', 'font', 'image', 'main_frame', 'media', 'object', 'other', 'ping', 'script',
+                        'stylesheet', 'sub_frame', 'webbundle', 'websocket', 'webtransport', 'xmlhttprequest'
+                    ]
+                }
+            }],
+            removeRuleIds: [1001]
+        })
+    });
 }
