@@ -1,5 +1,7 @@
 # Redirector
-Chrome extension for blocking distracting websites. Automatically redirects from harmful URL to different one (e.g. google.com)
+Lightweight Chrome extension for blocking distracting websites. 
+Technically it simply blocks any request from marked websites using [chrome.declarativeNetRequest API](https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/). In practice this looks like the websites don't have access to the internet.
+This extension doesn't collect/send/share any data, everything (urls) is kept inside local chrome.storage for extensions.
 <br>
 <br>
 <p align="center"> 
